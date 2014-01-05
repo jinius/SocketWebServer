@@ -27,7 +27,7 @@ public class HttpResponseTest
 		{
 			response.send( dos );
 			System.out.println( os.toString() );
-			assertEquals( "HTTP/1.1 200 OK" + CRLF + CRLF, os.toString() );
+			assertEquals( "HTTP/1.1 200 OK" + CRLF + "Content-Length: 0" + CRLF + CRLF, os.toString() );
 		}
 		catch (IOException e)
 		{

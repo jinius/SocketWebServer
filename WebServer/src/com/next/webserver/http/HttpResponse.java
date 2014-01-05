@@ -118,10 +118,6 @@ public class HttpResponse
 				fis.close();
 			}
 		}
-		else
-		{
-			dos.writeBytes( CRLF );
-		}
 
 		dos.flush();
 	}

@@ -65,9 +65,11 @@ public class ServerThread extends Thread
 	
 	protected HttpResponse processGetRequest( HttpRequest request, HttpResponse response )
 	{
-		String			filePath	= request.getRequestURI();
-		File			file		= new File( docRoot + filePath );
-		
+		String	filePath	= request.getRequestURI();
+		if ( filePath.equals( "/" ) )
+			filePath = "/index.html";
+
+		File	file		= new File( docRoot + filePath );
 		if ( file.isFile() )
 		{
 			if ( filePath.endsWith( ".html" ) )

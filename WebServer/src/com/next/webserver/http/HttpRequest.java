@@ -87,8 +87,5 @@ public class HttpRequest
 			requestURI	= match.group(2);
 			httpVersion	= match.group(3);
 		}
-		
-		if ( requestURI.equals("/") )
-			requestURI = "/index.html";
 	}
 }
