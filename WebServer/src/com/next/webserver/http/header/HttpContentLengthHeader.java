@@ -6,8 +6,10 @@ import java.util.regex.Pattern;
 
 public class HttpContentLengthHeader
 {
+	public static final String FIELD_NAME = "Content-Length";
+
 	private static final Pattern CONTENT_LENGTH =
-			Pattern.compile( "Content-Length" + ":" + "\\s?" + "([0-9]+)" );
+			Pattern.compile( FIELD_NAME + ":" + "\\s?" + "([0-9]+)" );
 
 	public static int parseHeader( String header ) throws ParseException
 	{

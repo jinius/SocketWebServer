@@ -5,6 +5,9 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Date;
+
+import com.next.webserver.http.util.HttpDateFormat;
 
 
 public class HttpResponse
@@ -15,8 +18,9 @@ public class HttpResponse
 	private int		statusCode		= 500;
 	private String	reasonPhrase	= null;
 	private String	contentType		= null;
-	private File	file			= null;
 	private byte[]	data			= null;
+	private File	file			= null;
+	private Date	lastModified	= null;
 	
 	public HttpResponse( String httpVersion )
 	{
@@ -63,20 +67,31 @@ public class HttpResponse
 		this.reasonPhrase = reasonPhrase;
 	}
 
-	public void setFile( File file )
-	{
-		this.file = file;
-	}
-
 	public void setData( byte[] data )
 	{
 		this.data = data;
+	}
+
+	public void setlastModified( Date date )
+	{
+		this.lastModified = date;
+	}
+
+	public void setFile( File file )
+	{
+		this.file			= file;
+		this.lastModified	= new Date( file.lastModified() );
 	}
 
 	public void send( DataOutputStream	dos ) throws IOException
 	{
 		dos.writeBytes( httpVersion + " " + statusCode + " " + getReasonPhrase() + CRLF );
 		
+		if ( lastModified != null )
+		{
+			dos.writeBytes( "Last-Modified: " + new HttpDateFormat().format( lastModified ) + CRLF );
+		}
+
 		if ( contentType != null )
 		{
 			dos.writeBytes( "Content-Type: " + contentType + CRLF );

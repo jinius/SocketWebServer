@@ -46,12 +46,12 @@ public class HttpRequest
 			if( header == null || header.equals("") )
 				break;
 
-			if ( header.startsWith( "Content-Length:" ) )
-			{
+			if ( header.startsWith( HttpContentLengthHeader.FIELD_NAME + ":" ) )
 				contentLength = HttpContentLengthHeader.parseHeader( header );
-			}
-			httpCache.setIfModifiedSince( HttpIfModifiedSinceHeader.parseHeader( header ) );
-			httpCache.setCacheControl( HttpCacheControlHeader.parseHeader( header ) );
+			else if ( header.startsWith( HttpIfModifiedSinceHeader.FIELD_NAME + ":" ) )
+				httpCache.setIfModifiedSince( HttpIfModifiedSinceHeader.parseHeader( header ) );
+			else if ( header.startsWith( HttpCacheControlHeader.FIELD_NAME + ":" ) )
+				httpCache.setCacheControl( HttpCacheControlHeader.parseHeader( header ) );
 		}
 
 		if( getMethod() == HttpMethod.POST )

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.ParseException;
+import java.util.Date;
 
 import com.next.webserver.http.HttpRequest;
 import com.next.webserver.http.HttpResponse;
@@ -66,7 +67,7 @@ public class ServerThread extends Thread
 	protected HttpResponse processGetRequest( HttpRequest request, HttpResponse response )
 	{
 		String	filePath	= request.getRequestURI();
-		if ( filePath.equals( "/" ) )
+		if ( filePath.endsWith( "/" ) )
 			filePath = "/index.html";
 
 		File	file		= new File( docRoot + filePath );
@@ -79,8 +80,15 @@ public class ServerThread extends Thread
 			else if ( filePath.endsWith( ".png" ) )
 				response.setContentType( "image/png" );
 
-			response.setFile( file );
-			response.setStatusCode( 200 );
+			Date modifiedDate = new Date( file.lastModified() );
+			Date date;
+			if ( ( date = request.getHttpCache().getIfModifiedSince() ) == null || modifiedDate.after( date ) )
+			{
+				response.setStatusCode( 200 );
+				response.setFile( file );
+			}
+			else
+				response.setStatusCode( 304 );
 		}
 		else
 			response.setStatusCode( 404 );

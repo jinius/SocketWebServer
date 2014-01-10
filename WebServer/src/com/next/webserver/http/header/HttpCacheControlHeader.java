@@ -7,17 +7,19 @@ import com.next.webserver.http.HttpCacheControl;
 
 public class HttpCacheControlHeader
 {
+	public static final String FIELD_NAME = "Cache-Control";
+
 	private static final Pattern CACHE_CONTROL =
 		Pattern.compile(
-			"Cache-Control" + ":" + "\\s?" + "("
-							+ "no-cache()" + "|"
-							+ "no-store()" + "|"
-							+ "max-age=(.+)" + "|"
-							+ "max-stale=(.*)" + "|"
-							+ "min-fresh=(.+)" + "|"
-							+ "no-transform()" + "|"
-							+ "only-if-cached()" + "|"
-							+ ")" );
+			FIELD_NAME	+ ":" + "\\s?" + "("
+						+ "no-cache()" + "|"
+						+ "no-store()" + "|"
+						+ "max-age=(.+)" + "|"
+						+ "max-stale=(.*)" + "|"
+						+ "min-fresh=(.+)" + "|"
+						+ "no-transform()" + "|"
+						+ "only-if-cached()" + "|"
+						+ ")" );
 
 	public static HttpCacheControl parseHeader( String header )
 	{

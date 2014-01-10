@@ -11,11 +11,11 @@ public class WebServer
 	public static void main(String[] args) throws IOException
 	{
 		if ( args.length < 1 )
-			config.setDocRoot( "../test03" );
+			config.setDocRoot( "../test01" );
 		else
 			config.setDocRoot( args[0] );
 
-		ServerSocket serverSocket = new ServerSocket(8080);
+		ServerSocket serverSocket = new ServerSocket( 8080, 50 );
 
 		try
 		{
